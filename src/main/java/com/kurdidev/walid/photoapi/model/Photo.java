@@ -4,9 +4,15 @@ import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
+
+@Table("PHOTOZ")
 public class Photo {
-    private String id;
+
+    @Id
+    private Integer id;
 
     @NotEmpty
     private String fileName;
@@ -21,18 +27,13 @@ public class Photo {
     public Photo() {
     }
 
-    public Photo(String id, String fileName, byte[] data, String contentType) {
-        this.id = id;
-        this.fileName = fileName;
-        this.data = data;
-        this.contentType = contentType;
-    }
 
-    public String getId() {
+
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -60,7 +61,7 @@ public class Photo {
         this.contentType = contentType;
     }
 
-    public Photo id(String id) {
+    public Photo id(Integer id) {
         setId(id);
         return this;
     }

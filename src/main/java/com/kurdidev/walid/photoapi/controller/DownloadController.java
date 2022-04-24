@@ -15,7 +15,7 @@ public class DownloadController {
     }
     
     @GetMapping("/download/{id}")
-    public ResponseEntity<byte[]> downloadPhoto(@PathVariable String id){
+    public ResponseEntity<byte[]> downloadPhoto(@PathVariable Integer id){
         return photozService.downloadPhoto(id);
 
     }

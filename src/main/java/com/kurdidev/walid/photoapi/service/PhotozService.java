@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.kurdidev.walid.photoapi.model.Photo;
+import com.kurdidev.walid.photoapi.repository.PhotozRepository;
 
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
@@ -20,39 +21,35 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class PhotozService {
 
-    private Map<String, Photo> db = new HashMap<>();
-
-    public Collection<Photo> get() {
-       return db.values();
+    private final PhotozRepository photozRepository;
+    public PhotozService(PhotozRepository photozRepository) {
+        this.photozRepository = photozRepository;
     }
 
-    public Photo getById(String id) {
-        Photo photo = db.get(id);
-        if(photo == null){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }else{
-            return photo;
-        }
+    
+
+    public Iterable<Photo> get() {
+       return photozRepository.findAll();
+    }
+
+    public Photo getById(Integer id) {
+        return photozRepository.findById(id).orElse(null);
     }
 
     public Photo postPhoto(MultipartFile file) throws IOException {
         Photo photo = new Photo();
-        photo.setId(UUID.randomUUID().toString());
         photo.setFileName(file.getOriginalFilename());
         photo.setContentType(file.getContentType());
         photo.setData(file.getBytes());
-        db.put(photo.getId() ,photo);
+        photozRepository.save(photo);
         return photo;
     }
 
-    public void deletePhoto(String id) {
-        Photo photo = db.remove(id);
-        if(photo == null){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
+    public void deletePhoto(Integer id) {
+        photozRepository.deleteById(id);
     }
 
-    public ResponseEntity<byte[]> downloadPhoto(String id) {
+    public ResponseEntity<byte[]> downloadPhoto(Integer id) {
         Photo photo = this.getById(id);
         if(photo == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);

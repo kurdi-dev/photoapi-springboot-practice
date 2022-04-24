@@ -1,7 +1,6 @@
 package com.kurdidev.walid.photoapi.controller;
 
 import java.io.IOException;
-import java.util.Collection;
 
 import com.kurdidev.walid.photoapi.model.Photo;
 import com.kurdidev.walid.photoapi.service.PhotozService;
@@ -29,12 +28,12 @@ public class PhotozController {
     }
 
     @GetMapping("/photoz")
-    public Collection<Photo> getPhotos() {
+    public Iterable<Photo> getPhotos() {
         return photozService.get();
     }
 
     @GetMapping("/photoz/{id}")
-    public Photo getPhoto(@PathVariable String id) {
+    public Photo getPhoto(@PathVariable Integer id) {
         return photozService.getById(id);
     }
 
@@ -44,7 +43,7 @@ public class PhotozController {
     }
 
     @DeleteMapping("/photoz/{id}")
-    public void deletePhoto(@PathVariable String id) {
+    public void deletePhoto(@PathVariable Integer id) {
         photozService.deletePhoto(id);
     }
     
