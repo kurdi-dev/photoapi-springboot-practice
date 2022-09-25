@@ -21,7 +21,6 @@ public class Photo {
     private byte[] data;
 
     private String contentType;
-
    
 
     public Photo() {
